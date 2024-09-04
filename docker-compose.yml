@@ -1,0 +1,21 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5001:5000"
+    depends_on:
+      - mongo
+    networks:
+      - mynetwork
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge

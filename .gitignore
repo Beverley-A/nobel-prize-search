@@ -1,0 +1,30 @@
+# Docker
+*.log
+docker-compose.override.yml
+docker-compose.prod.yml
+docker-compose.dev.yml
+docker-compose.local.yml
+.docker/
+
+# Flask
+instance/
+*.pyc
+*.pid
+*.sock
+flask_todo_app/
+# flask_todo_app/venv/pyvenv.cfg
+# flask_todo_app/venv/bin/activate
+# flask_todo_app/venv/bin/pip
+# flask_todo_app/venv/lib/python3.12/
+
+# MacOS
+.DS_Store
+
+# Database files
+*.db
+*.sqlite3
+db.sqlite3venv/
+venv/
+formatted_prize.json
+prize.json
+requirements.txt
