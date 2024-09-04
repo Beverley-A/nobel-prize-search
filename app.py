@@ -5,8 +5,8 @@ app = Flask(__name__)
 
 # Connect to MongoDB
 client = pymongo.MongoClient("mongodb://mongo:27017/")
-db = client["nobel_prizes"]
-collection = db["laureates"]
+db = client["nobelprizes"]
+collection = db["prizes"]
 
 @app.route("/search/name", methods=["GET"])
 def search_by_name():
