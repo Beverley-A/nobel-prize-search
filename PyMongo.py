@@ -8,8 +8,8 @@ data = response.json()
 
 # Connect to MongoDB
 client = pymongo.MongoClient("mongodb://mongo:27017/")
-db = client["nobel_prizes"]
-collection = db["laureates"]
+db = client["nobelprizes"]
+collection = db["prizes"]
 
 # Insert the data into MongoDB
 collection.drop()  # Remove old data if re-running the script
