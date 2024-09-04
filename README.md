@@ -1,85 +1,102 @@
-# Technical Test: Flask Todo App
+# Nobel Prize Search Application
 
 ## Overview
 
-This project is a simple Todo application built using Flask, a lightweight web framework for Python. 
-
-The application allows users to add, view, and delete todo items. It uses Docker for containerization, making it easy to set up and run the application in a consistent environment.
+This project is a web application that allows users to search for Nobel Prize laureates through a dataset. The application provides text-based search functionality for laureates by their name, category, or description. It is built using Flask and MongoDB.
 
 ## Features
 
-- **Add Todo Items:** Users can add new tasks to their todo list.
-- **View Todo List:** Displays all the tasks currently in the todo list.
-- **Delete Todo Items:** Allows users to remove tasks from the list.
-
-## Prerequisites
-
-Before running the application, ensure you have the following installed:
-
-- Docker
-- Docker Compose
+- Search laureates by name with partial matches.
+- Search laureates by prize category.
+- Search laureates by description with partial matches.
+- RESTful API with HTTP endpoints for searching.
 
 ## Getting Started
 
-Follow these steps to set up and run the application locally.
+### Prerequisites
 
-### 1. Clone the Repository
+- Python 3.x
+- MongoDB
+- Flask
+- `pymongo`
 
-- git clone https://github.com/beverleyadeyeye/flask-todo-app.git
-- cd flask-todo-app
+### Installation
 
-### 2. Build and Run the Docker Containers
-Build and start the Docker containers using Docker Compose:
+1. **Clone the Repository**
 
-`docker-compose up --build`
+   ```sh
+   git clone <repository-url>
+   cd <repository-directory>
 
-This command will build the Docker images and start the containers defined in `docker-compose.yml`.
+2. **Create and Activate a Virtual Environment**
+   ```sh
+   python3 -m venv venv
+   source venv/bin/activate
 
-### 3. Access the Application
-Once the containers are up and running, you can access the application in your web browser at:
+3. **Install Required Packages**
 
-`http://localhost:5000`
+  ```sh
+  pip install flask pymongo
 
-### 4. Stopping the Application
-To stop the Docker containers, press Ctrl+C in the terminal where Docker Compose is running. 
+4. **Ensure MongoDB is installed and running**
+5. **Import the dataset into MongoDB:**
 
-You can also run: 
+  ```sh
+  mongoimport --db nobelprizes --collection prizes --file formatted_prize.json --jsonArray
 
-`docker-compose down`
+Replace formatted_prize.json with the path to your JSON file.
 
-## Project Structure
+6. **Running the Application**
+- Start MongoDB
+- Ensure MongoDB is running on the default port (27017).
+- Run the Flask Application (python3 app.py). The application will be accessible at http://127.0.0.1:5000.
 
-- `Dockerfile`: Defines the environment for the Flask application.
+7. **API Endpoints**
+- Search by Name: curl "http://127.0.0.1:5000/search/name?name=Einstein"
+Example response:
 
-- `docker-compose.yml`: Configuration file for Docker Compose, defining services, networks, and volumes.
+[
+  {
+    "id": "1",
+    "firstname": "Albert",
+    "surname": "Einstein",
+    "motivation": "for his services to Theoretical Physics",
+    "year": "1921",
+    "category": "phy"
+  }
+]
 
-- `app.py`: The main Flask application script.
+- Search by Category: curl "http://127.0.0.1:5000/search/category?category=physiology"
+Example response:
+[
+  {
+    "id": "2",
+    "firstname": "Andrew",
+    "surname": "Fleming",
+    "motivation": "for the discovery of penicillin",
+    "year": "1945",
+    "category": "med"
+  }
+]
 
-- `templates/index.html`: The HTML template for rendering the todo list.
+- Search by Description
+curl "http://127.0.0.1:5000/search/description?description=theory"
+Example response:
+[
+  {
+    "id": "3",
+    "firstname": "Isaac",
+    "surname": "Newton",
+    "motivation": "for his services to the Science of Mechanics",
+    "year": "1687",
+    "category": "phy"
+  }
+]
 
-- `.gitignore`: Specifies files and directories to be ignored by Git.
+***Troubleshooting***
+- Address Already in Use
+If you encounter an "Address already in use" error, stop any process using port 5000 or start Flask on a different port:
+python3 app.py --port 5001
 
-- `README.md`: This file, containing information about the project.
-
-## Makefile Usage
-
-- Build Docker Image: `make build`
-- Start Docker Containers: `make up`
-- Stop and Remove Docker Containers: `make down`
-- Restart Docker Containers: `make restart`
-- Clean Up Docker System: `make clean`
-- Reset the Database: `make reset-db`
-- Apply Database Migrations: `make migrate`
-
-## Troubleshooting
-If you encounter issues, make sure that:
-
-- Docker and Docker Compose are installed and running.
-- No other applications are using port 5000.
-
-For additional support, refer to the Docker documentation or the Flask documentation.
-
-### Usage Notes
-
-- **Port Conflicts:** Ensure port 5000 is free or modify `docker-compose.yml` to use a different port.
-- **Further Customization:** You might need to adjust the README based on additional features or configurations specific to your project.
+- MongoDB Connection Issues
+Ensure MongoDB is running and accessible at mongodb://localhost:27017. If you encounter issues, verify the MongoDB server status and connection settings.
